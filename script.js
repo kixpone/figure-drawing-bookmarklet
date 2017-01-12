@@ -1,32 +1,41 @@
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 var  watch_time = 5000;
 var  draw_time = 30000;
 
-// Youtube
-var vid = document.getElementById("movie_player");
-if (vid == null){
-  // Dailymotion
-  var vid = document.getElementById("player");
-}
-if (vid == null){
-  alert("Sorry! No video found!");
-}else{
-  while (true){
-
-    sleep(watch_time);
+function do_some_drawing (watch_time,draw_time) {
+  // I just try both play/pause functions, cause I'm lazy, plus this might 'just work' on some other site's vids. It's bad practice, cause debugging, but watever.
+  function pause_video(){
     // Youtube
-    vid.pauseVideo();
+    try{vid.pauseVideo();}catch(err){}
     // Dailymotion
-    vid.pause();
-
-    sleep(draw_time);
+    try{vid.pause();}catch(err){}
+  }
+  function play_video(){
     // Youtube
-    vid.playVideo();
+    try{vid.playVideo();}catch(err){}
     // Dailymotion
-    vid.play();
+    try{vid.play();}catch(err){}
+  }
+
+  function watch(){
+    play_video();
+    setTimeout(draw, watch_time);
+  }
+  function draw(){
+    pause_video();
+    setTimeout(watch, draw_time);
+  }
+
+  // Youtube
+  var vid = document.getElementById("movie_player");
+  if (vid == null){
+    // Dailymotion
+    var vid = document.getElementById("player");
+  }
+  if (vid == null){
+    alert("Sorry! No video found!");
+  }else{
+    watch();  
   }
 }
+
