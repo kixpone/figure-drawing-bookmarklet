@@ -63,6 +63,7 @@ function do_some_drawing (watch_time,draw_time) {
     setTimeout(draw, watch_time);
   }
   function draw(){
+    console.log("in draw function");
     if (are_we_drawing()) {
       pause_video();
       setTimeout(watch, draw_time);
@@ -70,6 +71,7 @@ function do_some_drawing (watch_time,draw_time) {
   }
 
   function init(){
+    console.log("in init function");
     // Youtube
     var vid = document.getElementById("movie_player");
     if (vid == null){
@@ -79,14 +81,15 @@ function do_some_drawing (watch_time,draw_time) {
     if (vid == null){
       alert("Sorry! No video found!");
     }else{
+      start_drawing();
       watch();  
     }
   }
 
+  console.log("main");
   if (are_we_drawing()) {
     stop_drawing();
   }else{
-    start_drawing();
     init();
   }
 }
