@@ -2,6 +2,26 @@
 var  watch_time = 500;
 var  draw_time = 3000;
 
+function are_we_drawing(){
+  // is this hacky? The hackyest.
+  // this can't be best practice, but I'm trying it.
+  el = document.getElementById('_figure_drawing');
+  if (el == null) {
+    return false;
+  } else {
+    return true;
+  }
+}
+function start_drawing(){
+var el = document.createElement("div");
+el.setAttribute("id","_figure_drawing");
+document.body.appendChild(el);
+}
+function stop_drawing(){
+el = document.getElementById('_figure_drawing');
+el.parentNode.removeChild(bar);
+}
+
 function generate_bookmarklet(){
   var bookmarklet = document.createElement('a');
   bookmarklet.href = `
@@ -9,10 +29,10 @@ function generate_bookmarklet(){
           var jsCode = document.createElement('script'); 
           jsCode.setAttribute('src', 'https://cdn.rawgit.com/kixpone/figure-drawing-bookmarklet/gh-pages/script.js');                  
         document.body.appendChild(jsCode); 
-        if (_figure_drawing) {
-          _figure_drawing=false;
+        if (are_we_drawing()) {
+          stop_drawing();
         }else{
-          _figure_drawing=true;
+          start_drawing();
           setTimeout(function () {
             do_some_drawing(${watch_time},${draw_time});
           }, 30);
@@ -43,8 +63,7 @@ function do_some_drawing (watch_time,draw_time) {
     setTimeout(draw, watch_time);
   }
   function draw(){
-    console.log(_figure_drawing);
-    if (_figure_drawing) {
+    if (are_we_drawing()) {
       pause_video();
       setTimeout(watch, draw_time);
     }
