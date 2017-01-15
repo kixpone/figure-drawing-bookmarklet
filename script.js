@@ -1,6 +1,27 @@
 
-var  watch_time = 5000;
-var  draw_time = 30000;
+var  watch_time = 500;
+var  draw_time = 3000;
+
+function generate_bookmarklet(){
+  var bookmarklet = document.createElement('a');
+  bookmarklet.href = `
+      javascript: (function () { 
+          var jsCode = document.createElement('script'); 
+          jsCode.setAttribute('src', 'https://cdn.rawgit.com/kixpone/figure-drawing-bookmarklet/gh-pages/script.js');                  
+        document.body.appendChild(jsCode); 
+        if (document._figure_drawing) {
+          document._figure_drawing=false;
+        }else{
+          document._figure_drawing=true;
+          setTimeout(function () {
+            do_some_drawing(${watch_time},${draw_time});
+          }, 30);
+        }
+       }());
+      `;
+  bookmarklet.innerHTML="foo";
+  document.body.appendChild(bookmarklet);
+}
 
 function do_some_drawing (watch_time,draw_time) {
   // I just try both play/pause functions, cause I'm lazy, plus this might 'just work' on some other site's vids. It's bad practice, cause debugging, but watever.
@@ -22,8 +43,11 @@ function do_some_drawing (watch_time,draw_time) {
     setTimeout(draw, watch_time);
   }
   function draw(){
-    pause_video();
-    setTimeout(watch, draw_time);
+    console.log(_figure_drawing);
+    if (document._figure_drawing) {
+      pause_video();
+      setTimeout(watch, draw_time);
+    }
   }
 
   // Youtube
@@ -39,3 +63,4 @@ function do_some_drawing (watch_time,draw_time) {
   }
 }
 
+generate_bookmarklet();
