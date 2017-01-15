@@ -2,25 +2,6 @@
 var  watch_time = 500;
 var  draw_time = 3000;
 
-function are_we_drawing(){
-  // is this hacky? The hackyest.
-  // this can't be best practice, but I'm trying it.
-  el = document.getElementById('_figure_drawing');
-  if (el == null) {
-    return false;
-  } else {
-    return true;
-  }
-}
-function start_drawing(){
-var el = document.createElement("div");
-el.setAttribute("id","_figure_drawing");
-document.body.appendChild(el);
-}
-function stop_drawing(){
-el = document.getElementById('_figure_drawing');
-el.parentNode.removeChild(bar);
-}
 
 function generate_bookmarklet(){
   var bookmarklet = document.createElement('a');
@@ -41,6 +22,30 @@ function generate_bookmarklet(){
       `;
   bookmarklet.innerHTML="foo";
   document.body.appendChild(bookmarklet);
+}
+
+function are_we_drawing(){
+  // is this hacky? The hackyest.
+  // this can't be best practice, but I'm trying it.
+  el = document.getElementById('_figure_drawing');
+  if (el == null) {
+    return false;
+  } else {
+    return true;
+  }
+}
+function start_drawing(){
+  if (!are_we_drawing()) {
+    var el = document.createElement("div");
+    el.setAttribute("id","_figure_drawing");
+    document.body.appendChild(el);
+  }
+}
+function stop_drawing(){
+  if (are_we_drawing) {
+    el = document.getElementById('_figure_drawing');
+    el.parentNode.removeChild(el);
+  }
 }
 
 function do_some_drawing (watch_time,draw_time) {
