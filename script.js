@@ -10,46 +10,42 @@ function generate_bookmarklet(){
           var jsCode = document.createElement('script'); 
           jsCode.setAttribute('src', 'https://cdn.rawgit.com/kixpone/figure-drawing-bookmarklet/gh-pages/script.js');                  
         document.body.appendChild(jsCode); 
-        if (are_we_drawing()) {
-          stop_drawing();
-        }else{
-          start_drawing();
-          setTimeout(function () {
-            do_some_drawing(${watch_time},${draw_time});
-          }, 30);
-        }
+        start_drawing();
+        setTimeout(function () {
+          do_some_drawing(${watch_time},${draw_time});
+        }, 30);
        }());
       `;
   bookmarklet.innerHTML="foo";
   document.body.appendChild(bookmarklet);
 }
 
-function are_we_drawing(){
-  // is this hacky? The hackyest.
-  // this can't be best practice, but I'm trying it.
-  el = document.getElementById('_figure_drawing');
-  if (el == null) {
-    return false;
-  } else {
-    return true;
-  }
-}
-function start_drawing(){
-  if (!are_we_drawing()) {
-    var el = document.createElement("div");
-    el.setAttribute("id","_figure_drawing");
-    document.body.appendChild(el);
-  }
-}
-function stop_drawing(){
-  if (are_we_drawing) {
-    el = document.getElementById('_figure_drawing');
-    el.parentNode.removeChild(el);
-  }
-}
 
 function do_some_drawing (watch_time,draw_time) {
   // I just try both play/pause functions, cause I'm lazy, plus this might 'just work' on some other site's vids. It's bad practice, cause debugging, but watever.
+  function are_we_drawing(){
+    // is this hacky? The hackyest.
+    // this can't be best practice, but I'm trying it.
+    el = document.getElementById('_figure_drawing');
+    if (el == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  function start_drawing(){
+    if (!are_we_drawing()) {
+      var el = document.createElement("div");
+      el.setAttribute("id","_figure_drawing");
+      document.body.appendChild(el);
+    }
+  }
+  function stop_drawing(){
+    if (are_we_drawing) {
+      el = document.getElementById('_figure_drawing');
+      el.parentNode.removeChild(el);
+    }
+  }
   function pause_video(){
     // Youtube
     try{vid.pauseVideo();}catch(err){}
@@ -74,16 +70,25 @@ function do_some_drawing (watch_time,draw_time) {
     }
   }
 
-  // Youtube
-  var vid = document.getElementById("movie_player");
-  if (vid == null){
-    // Dailymotion
-    var vid = document.getElementById("player");
+  function init(){
+    // Youtube
+    var vid = document.getElementById("movie_player");
+    if (vid == null){
+      // Dailymotion
+      var vid = document.getElementById("player");
+    }
+    if (vid == null){
+      alert("Sorry! No video found!");
+    }else{
+      watch();  
+    }
   }
-  if (vid == null){
-    alert("Sorry! No video found!");
+
+  if (are_we_drawing()) {
+    stop_drawing();
   }else{
-    watch();  
+    start_drawing();
+    init();
   }
 }
 
