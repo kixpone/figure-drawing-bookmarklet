@@ -10,7 +10,6 @@ function generate_bookmarklet(){
           var jsCode = document.createElement('script'); 
           jsCode.setAttribute('src', 'https://cdn.rawgit.com/kixpone/figure-drawing-bookmarklet/gh-pages/script.js');                  
         document.body.appendChild(jsCode); 
-        start_drawing();
         setTimeout(function () {
           do_some_drawing(${watch_time},${draw_time});
         }, 30);
