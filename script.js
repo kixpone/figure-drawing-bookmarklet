@@ -9,10 +9,10 @@ function generate_bookmarklet(){
           var jsCode = document.createElement('script'); 
           jsCode.setAttribute('src', 'https://cdn.rawgit.com/kixpone/figure-drawing-bookmarklet/gh-pages/script.js');                  
         document.body.appendChild(jsCode); 
-        if (document._figure_drawing) {
-          document._figure_drawing=false;
+        if (_figure_drawing) {
+          _figure_drawing=false;
         }else{
-          document._figure_drawing=true;
+          _figure_drawing=true;
           setTimeout(function () {
             do_some_drawing(${watch_time},${draw_time});
           }, 30);
@@ -43,8 +43,8 @@ function do_some_drawing (watch_time,draw_time) {
     setTimeout(draw, watch_time);
   }
   function draw(){
-    console.log(document._figure_drawing);
-    if (document._figure_drawing) {
+    console.log(_figure_drawing);
+    if (_figure_drawing) {
       pause_video();
       setTimeout(watch, draw_time);
     }
