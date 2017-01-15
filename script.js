@@ -43,7 +43,7 @@ function do_some_drawing (watch_time,draw_time) {
     setTimeout(draw, watch_time);
   }
   function draw(){
-    console.log(_figure_drawing);
+    console.log(document._figure_drawing);
     if (document._figure_drawing) {
       pause_video();
       setTimeout(watch, draw_time);
