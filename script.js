@@ -3,7 +3,12 @@ var  watch_time = 500;
 var  draw_time = 3000;
 
 
+var button = document.getElementById('button');
+button.setAttribute('onclick','generate_bookmarklet()');
+
 function generate_bookmarklet(){
+  watch_time = document.getElementById("watch_time").value;
+  draw_time = document.getElementById("draw_time").value;
   var bookmarklet = document.createElement('a');
   bookmarklet.href = `
       javascript: (function () { 
@@ -15,7 +20,10 @@ function generate_bookmarklet(){
         }, 30);
        }());
       `;
-  bookmarklet.innerHTML="foo";
+  bookmarklet.innerHTML="draw"
+      +(watch_time/100)
+      +":"
+      +(draw_time/100);
   document.body.appendChild(bookmarklet);
 }
 
@@ -47,18 +55,27 @@ function do_some_drawing (watch_time,draw_time) {
   }
   function pause_video(){
     // Youtube
-    try{vid.pauseVideo();}catch(err){}
+    try{vid.pauseVideo();}catch(err){
+      console.log(err)
+    }
     // Dailymotion
-    try{vid.pause();}catch(err){}
+    try{vid.pause();}catch(err){
+      console.log(err)
+    }
   }
   function play_video(){
     // Youtube
-    try{vid.playVideo();}catch(err){}
+    try{vid.playVideo();}catch(err){
+      console.log(err)
+    }
     // Dailymotion
-    try{vid.play();}catch(err){}
+    try{vid.play();}catch(err){
+      console.log(err)
+    }
   }
 
   function watch(){
+    console.log("in watch function");
     play_video();
     setTimeout(draw, watch_time);
   }
@@ -88,10 +105,10 @@ function do_some_drawing (watch_time,draw_time) {
 
   console.log("main");
   if (are_we_drawing()) {
+    console.log("we where drawing, attempting to stop.");
     stop_drawing();
   }else{
     init();
   }
 }
 
-generate_bookmarklet();
